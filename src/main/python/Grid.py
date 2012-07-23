@@ -36,3 +36,19 @@ class Grid():
                     grid = grid + str(cell_candidates[0])
             grid = grid + "\n"
         return grid
+
+    def load(self, fileToLoad):
+        """ Loads a string representation of a grid into the cells of this grid.
+            See the display() docstring above for the expected formatting
+        """
+        lineIndex = 0
+        for line in fileToLoad:
+            columnIndex = 0
+            for char in line.rstrip("\r\n"):
+                if char == '.':
+                    self.candidates[columnIndex][lineIndex] = range(1, 10) #note: this is redundant with __init__() ; something should be done
+                elif char.isdigit():
+                    self.set(columnIndex, lineIndex, int(char))
+                columnIndex += 1
+            lineIndex += 1
+        # cases not covered now : chars others than [.1-9], lines greater than 9 chars, more than 9 lines, etc.

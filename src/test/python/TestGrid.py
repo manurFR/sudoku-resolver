@@ -1,4 +1,5 @@
 import unittest
+from StringIO import StringIO
 from Grid import Grid
 
 class TestGrid(unittest.TestCase):
@@ -23,6 +24,11 @@ class TestGrid(unittest.TestCase):
             self.grid.remove_candidate(0, 0, 1)
         except ValueError:
             self.fail("Removing a number already removed should not raise a ValueError")
+
+    def test_load(self):
+        stringToLoad = "..1..2..3\n.........\n456......\n.......7.\n.........\n....8....\n.........\n123456789\n..8..2..5\n"
+        self.grid.load(StringIO(stringToLoad))
+        self.assertEqual(stringToLoad, self.grid.display())
 
 if __name__ == '__main__':
     unittest.main()
