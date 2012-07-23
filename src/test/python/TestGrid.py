@@ -7,7 +7,7 @@ class GridTest(unittest.TestCase):
         for x in range(9):
             for y in range(9):
                 if x==y:
-                    grid.set(x, y, x)
+                    grid.set(x, y, x+1)
         self.assertEqual("1........\n.2.......\n..3......\n...4.....\n....5....\n.....6...\n......7..\n.......8.\n........9\n", grid.display())
 
 if __name__ == '__main__':
