@@ -5,14 +5,20 @@ class Grid():
         Each cell features a list of the 1 to 9 remaining candidates (from numbers 1 to 9) allowed for this cell.
         When a cell has only one remaining candidate (list of size 1), it is the definitive number found for this cell.
     """
-    # initialization of the grid, with each of the 9x9 cells containing the list [1,2,3,4,5,6,7,8,9] of all possible values
-    candidates = [[range(1, 10) for x in range(SIZE)] for y in range(SIZE)]
+    def __init__(self):    
+        """ initialization of the grid, with each of the 9x9 cells containing the list [1,2,3,4,5,6,7,8,9] of all possible values """
+        self.candidates = [[range(1, 10) for x in range(SIZE)] for y in range(SIZE)]
 
     def set(self, x, y, val):
         """ Sets a cell to one number, ie a list containing one element : the specified value.
             Will serve for setting the initial numbers given with the grid.
         """
         self.candidates[x][y] = [val]
+
+    def remove_candidate(self, x, y, val):
+        """ Removes a remaining candidate from a cell. """
+        if val in self.candidates[x][y]:
+            self.candidates[x][y].remove(val)
 
     def display(self):
         """ Returns a string representation of the grid in the current state.
