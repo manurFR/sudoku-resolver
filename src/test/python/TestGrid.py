@@ -1,6 +1,6 @@
 import unittest
 from StringIO import StringIO
-from Grid import Grid
+from Grid import Grid, GridLoadingException
 
 class TestGrid(unittest.TestCase):
     def setUp(self):
@@ -29,6 +29,26 @@ class TestGrid(unittest.TestCase):
         stringToLoad = "..1..2..3\n.........\n456......\n.......7.\n.........\n....8....\n.........\n123456789\n..8..2..5\n"
         self.grid.load(StringIO(stringToLoad))
         self.assertEqual(stringToLoad, self.grid.display())
+
+    def test_load_with_a_line_longer_than_9_characters(self):
+        with self.assertRaises(GridLoadingException) as ex:
+            Grid(StringIO("1234567891\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n"))
+        self.assertEqual("Loading Error : line 1 has more than 9 characters : 1234567891", ex.exception.message)
+
+    def test_load_with_invalid_characters(self):
+        with self.assertRaises(GridLoadingException) as ex:
+            Grid(StringIO("123456789\n.........\n.........\n...x.....\n.........\n.........\n.........\n.........\n.........\n"))
+        self.assertEqual("Loading Error : invalid character on line 4, column 4 : ...x.....", ex.exception.message)
+
+    def test_load_with_leading_comments_and_empty_lines(self):
+        stringToLoad = "..1..2..3\n.........\n456......\n.......7.\n.........\n....8....\n.........\n123456789\n..8..2..5\n"
+        self.grid.load(StringIO("# comment\n\n\n" + stringToLoad)) 
+        self.assertEqual(stringToLoad, self.grid.display())
+
+    def test_load_with_more_than_9_lines(self):
+        with self.assertRaises(GridLoadingException) as ex:
+            Grid(StringIO("123456789\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n\n.........\n"))
+        self.assertEqual("Loading Error : too many lines", ex.exception.message)
 
 if __name__ == '__main__':
     unittest.main()

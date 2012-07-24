@@ -1,3 +1,5 @@
+from StringIO import StringIO
+
 SIZE = 9
 
 class Grid():
@@ -5,9 +7,14 @@ class Grid():
         Each cell features a list of the 1 to 9 remaining candidates (from numbers 1 to 9) allowed for this cell.
         When a cell has only one remaining candidate (list of size 1), it is the definitive number found for this cell.
     """
-    def __init__(self):    
-        """ initialization of the grid, with each of the 9x9 cells containing the list [1,2,3,4,5,6,7,8,9] of all possible values """
-        self.candidates = [[range(1, 10) for x in range(SIZE)] for y in range(SIZE)]
+    def __init__(self, fileToLoad = None):    
+        """ Initialization of the grid.
+            If a fileToLoad is provided, it is parsed to create the grid.
+            If not, initially each of the 9x9 cells will have a full list [1,2,3,4,5,6,7,8,9] of possible candidates.
+        """
+        if fileToLoad == None:
+            fileToLoad = StringIO(__blankGrid__())
+        self.load(fileToLoad) 
 
     def set(self, x, y, val):
         """ Sets a cell to one number, ie a list containing one element : the specified value.
@@ -39,16 +46,44 @@ class Grid():
 
     def load(self, fileToLoad):
         """ Loads a string representation of a grid into the cells of this grid.
-            See the display() docstring above for the expected formatting
+            See the display() docstring above for the expected formatting.
+            Empty lines and lines starting by a # are ignored.        
         """
+        self.candidates = [[[] for x in range(SIZE)] for y in range(SIZE)]
         lineIndex = 0
         for line in fileToLoad:
+            lineToParse = line.rstrip("\r\n")
+
+            if lineToParse[0:1] == '#' or len(lineToParse) == 0:
+                continue
+            elif lineIndex >= SIZE:
+                raise GridLoadingException("Loading Error : too many lines")
+            elif len(lineToParse) > SIZE:
+                raise GridLoadingException("Loading Error : line {} has more than {} characters : {}".format(lineIndex+1, SIZE, lineToParse))
+
             columnIndex = 0
-            for char in line.rstrip("\r\n"):
+            for char in lineToParse:
                 if char == '.':
-                    self.candidates[columnIndex][lineIndex] = range(1, 10) #note: this is redundant with __init__() ; something should be done
+                    self.candidates[columnIndex][lineIndex] = range(1, 10)
                 elif char.isdigit():
                     self.set(columnIndex, lineIndex, int(char))
+                else:
+                    raise GridLoadingException("Loading Error : invalid character on line {}, column {} : {}".format(lineIndex+1, columnIndex+1, lineToParse))
                 columnIndex += 1
+
             lineIndex += 1
-        # cases not covered now : chars others than [.1-9], lines greater than 9 chars, more than 9 lines, etc.
+
+class GridLoadingException(Exception):
+    pass
+
+def __blankGrid__():
+    return """\
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+.........
+........."""
