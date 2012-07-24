@@ -47,7 +47,7 @@ class Grid():
     def load(self, fileToLoad):
         """ Loads a string representation of a grid into the cells of this grid.
             See the display() docstring above for the expected formatting.
-            Empty lines and lines starting by a # are ignored.        
+            Empty lines and lines starting with a # are ignored.        
         """
         self.candidates = [[[] for x in range(SIZE)] for y in range(SIZE)]
         lineIndex = 0
