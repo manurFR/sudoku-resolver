@@ -80,6 +80,20 @@ class Grid():
                 columnIndex += 1
 
             lineIndex += 1
+    
+    def __iter__(self):
+        """ Returns an iterator over the unsolved cells of the grid. """
+        class GridIterator:
+            def __init__(self):
+                self.currentCell = [-1,-1] 
+            def __iter__(self):
+                return self
+            def next(self):
+                while True:
+                    if self.currentCell[0] == SIZE - 1: # end of line : go to first cell of next line
+                        # test also if we're at the last line => go back to the top left cell
+                        self.currentCell = [0, self.currentCell[1] + 1] 
+        return GridIterator()
 
 class GridLoadingException(Exception):
     pass

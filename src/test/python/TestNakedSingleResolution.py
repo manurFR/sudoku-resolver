@@ -43,12 +43,5 @@ class TestNakedSingleResolution(unittest.TestCase):
         self.assertEqual(0, self.nakedSingleResolution.block_naked_single(grid, 0, 0))
         self.assertItemsEqual([3,4,5,6], grid.candidates[0][0])
 
-    def test_naked_single_acceptance(self):
-        grid = Grid(StringIO("1........\n...2.3.4.\n..9......\n.........\n.5.......\n.........\n.6.......\n.........\n.7.......\n"))
-        self.assertEqual(0, self.nakedSingleResolution.block_naked_single(grid, 1, 1))
-        self.assertEqual(0, self.nakedSingleResolution.horizontal_naked_single(grid, 1, 1))
-        self.assertEqual(1, self.nakedSingleResolution.vertical_naked_single(grid, 1, 1))
-        self.assertEqual(8, grid.get_solution(1, 1))
-
 if __name__ == '__main__':
     unittest.main()

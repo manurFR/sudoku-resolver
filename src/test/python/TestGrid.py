@@ -55,5 +55,9 @@ class TestGrid(unittest.TestCase):
         self.assertEqual(2, self.grid.get_solution(1,1))
         self.assertEqual(None, self.grid.get_solution(2,1))
 
+    def test_iter_next_starting_cell_with_blank_grid(self):
+        iterator = iter(self.grid)
+        self.assertEqual([0, 0], iterator.next())
+
 if __name__ == '__main__':
     unittest.main()
