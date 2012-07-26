@@ -50,5 +50,10 @@ class TestGrid(unittest.TestCase):
             Grid(StringIO("123456789\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n\n.........\n"))
         self.assertEqual("Loading Error : too many lines", ex.exception.message)
 
+    def test_get_solution(self):
+        self.grid.load(StringIO("1........\n.2.......\n..3......\n...4.....\n....5....\n.....6...\n......7..\n.......8.\n........9\n")) 
+        self.assertEqual(2, self.grid.get_solution(1,1))
+        self.assertEqual(None, self.grid.get_solution(2,1))
+
 if __name__ == '__main__':
     unittest.main()

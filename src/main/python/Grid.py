@@ -22,6 +22,14 @@ class Grid():
         """
         self.candidates[x][y] = [val]
 
+    def get_solution(self, x, y):
+        """ Returns the remaining candidate for the cell (x, y) if there is only one, ie the cell is solved.
+            Return None if there are more than one possible candidate left for this cell
+        """
+        if len(self.candidates[x][y]) == 1:
+            return self.candidates[x][y][0]
+        return None
+
     def remove_candidate(self, x, y, val):
         """ Removes a remaining candidate from a cell. """
         if val in self.candidates[x][y]:
