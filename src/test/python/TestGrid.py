@@ -59,5 +59,13 @@ class TestGrid(unittest.TestCase):
         iterator = iter(self.grid)
         self.assertEqual([0, 0], iterator.next())
 
+    def test_iter_next(self):
+        self.grid.load(StringIO("41.6.8972\n3.2479185\n789215364\n926341758\n138756429\n574982631\n257164893\n843597216\n691823547\n")) 
+        iterator = iter(self.grid)
+        self.assertEqual([2, 0], iterator.next(), "first")
+        self.assertEqual([4, 0], iterator.next(), "second")
+        self.assertEqual([1, 1], iterator.next(), "third")
+        self.assertEqual([2, 0], iterator.next(), "back to first")
+
 if __name__ == '__main__':
     unittest.main()

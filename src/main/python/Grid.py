@@ -84,16 +84,25 @@ class Grid():
     def __iter__(self):
         """ Returns an iterator over the unsolved cells of the grid. """
         class GridIterator:
-            def __init__(self):
-                self.currentCell = [-1,-1] 
+            def __init__(self, grid):
+                self.grid = grid
+                self.currentCell = [-1, 0] 
             def __iter__(self):
                 return self
-            def next(self):
+            def next(self): # TODO: exit when all cells are solved (infinite loop)
                 while True:
                     if self.currentCell[0] == SIZE - 1: # end of line : go to first cell of next line
-                        # test also if we're at the last line => go back to the top left cell
-                        self.currentCell = [0, self.currentCell[1] + 1] 
-        return GridIterator()
+                        if self.currentCell[1] == SIZE - 1: # end of grid : go back to the top left cell
+                            self.currentCell[0] = 0
+                            self.currentCell[1] = 0
+                        else:
+                            self.currentCell[0] = 0
+                            self.currentCell[1] += 1
+                    else:
+                        self.currentCell[0] += 1
+                    if self.grid.get_solution(self.currentCell[0], self.currentCell[1]) == None:
+                        return self.currentCell
+        return GridIterator(self)
 
 class GridLoadingException(Exception):
     pass
