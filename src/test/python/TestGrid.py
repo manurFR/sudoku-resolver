@@ -70,16 +70,18 @@ class TestGrid(unittest.TestCase):
     def test_iter_next_exit_if_complete_grid(self):
         self.grid.load(StringIO("415638972\n362479185\n789215364\n926341758\n138756429\n574982631\n257164893\n843597216\n691823547\n"))
         iterator = iter(self.grid)
-        with self.assertRaises(StopIteration):
+        with self.assertRaises(StopIteration) as ex:
             iterator.next()
+        self.assertTrue(ex.exception.args[0])
 
     def test_iter_next_exit_if_complete_cycle_without_change(self):
         self.grid.load(StringIO("41.638972\n362479185\n789215364\n926341758\n138756429\n574982631\n257164893\n843597216\n691823547\n"))
         iterator = iter(self.grid)
         self.assertEqual([2, 0], iterator.next())
         self.assertEqual([2, 0], iterator.next())
-        with self.assertRaises(StopIteration):
+        with self.assertRaises(StopIteration) as ex:
             iterator.next()
+        self.assertFalse(ex.exception.args[0])
 
 if __name__ == '__main__':
     unittest.main()
