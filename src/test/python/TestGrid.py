@@ -30,10 +30,18 @@ class TestGrid(unittest.TestCase):
         self.grid.load(StringIO(stringToLoad))
         self.assertEqual(stringToLoad, self.grid.display())
 
-    def test_load_with_a_line_longer_than_9_characters(self):
+    def test_load_without_line_returns(self):
+        self.grid.load(StringIO("..1..2..3.........456.............7..............8.............123456789..8..2..5"))
+        self.assertEqual("..1..2..3\n.........\n456......\n.......7.\n.........\n....8....\n.........\n123456789\n..8..2..5\n", self.grid.display())
+
+    def test_load_grid_with_zeroes_and_random_line_returns(self):
+        self.grid.load(StringIO("00100200300000000045\n600000000000007000000000000008\n0000000000000123456789008002005"))
+        self.assertEqual("..1..2..3\n.........\n456......\n.......7.\n.........\n....8....\n.........\n123456789\n..8..2..5\n", self.grid.display())
+
+    def test_load_with_a_grid_longer_than_9x9_characters(self):
         with self.assertRaises(GridLoadingException) as ex:
-            Grid(StringIO("1234567891\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n"))
-        self.assertEqual("Loading Error : line 1 has more than 9 characters : 1234567891", ex.exception.message)
+            Grid(StringIO("1234567891........................................................................"))
+        self.assertEqual("Loading Error : too many characters", ex.exception.message)
 
     def test_load_with_invalid_characters(self):
         with self.assertRaises(GridLoadingException) as ex:
@@ -48,7 +56,7 @@ class TestGrid(unittest.TestCase):
     def test_load_with_more_than_9_lines(self):
         with self.assertRaises(GridLoadingException) as ex:
             Grid(StringIO("123456789\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n\n.........\n"))
-        self.assertEqual("Loading Error : too many lines", ex.exception.message)
+        self.assertEqual("Loading Error : too many characters", ex.exception.message)
 
     def test_get_solution(self):
         self.grid.load(StringIO("1........\n.2.......\n..3......\n...4.....\n....5....\n.....6...\n......7..\n.......8.\n........9\n"))

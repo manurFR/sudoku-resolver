@@ -54,32 +54,36 @@ class Grid():
 
     def load(self, fileToLoad):
         """ Loads a string representation of a grid into the cells of this grid.
-            See the display() docstring above for the expected formatting.
-            Empty lines and lines starting with a # are ignored.        
+            Empty lines and lines starting with a # are ignored.
+            Rows can be separated by \n or not. (Actually, line returns will be ignored in any location.)
+            The number 1 to 9 stand for 'given' cells at the beginning.
+            0 or . stand for cells left to solve.
+            All other characters are invalid.
         """
         self.candidates = [[[] for x in range(SIZE)] for y in range(SIZE)]
         lineIndex = 0
+        columnIndex = 0
         for line in fileToLoad:
-            lineToParse = line.rstrip("\r\n")
+            lineToParse = line.strip("\r\n")
 
             if lineToParse[0:1] == '#' or len(lineToParse) == 0:
                 continue
-            elif lineIndex >= SIZE:
-                raise GridLoadingException("Loading Error : too many lines")
-            elif len(lineToParse) > SIZE:
-                raise GridLoadingException("Loading Error : line {} has more than {} characters : {}".format(lineIndex+1, SIZE, lineToParse))
 
-            columnIndex = 0
             for char in lineToParse:
-                if char == '.':
+                if lineIndex >= SIZE:
+                    raise GridLoadingException("Loading Error : too many characters")
+                
+                if char == '.' or char == '0':
                     self.candidates[columnIndex][lineIndex] = range(1, 10)
                 elif char.isdigit():
                     self.set(columnIndex, lineIndex, int(char))
                 else:
                     raise GridLoadingException("Loading Error : invalid character on line {}, column {} : {}".format(lineIndex+1, columnIndex+1, lineToParse))
+                
                 columnIndex += 1
-
-            lineIndex += 1
+                if columnIndex >= SIZE:
+                    columnIndex = 0
+                    lineIndex += 1
 
     def __iter__(self):
         """ Returns an iterator over the unsolved cells of the grid. """
