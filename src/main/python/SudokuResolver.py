@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF8 -*-
 
-import sys
+import sys, argparse
 from Grid import Grid
 from GridResolution import GridResolution
 
@@ -23,13 +23,19 @@ class SudokuResolver:
         except StopIteration as stop:
            return stop.args[0]
 
-if __name__ == "__main__":
-    if len(sys.argv) == 1:
-        print "Usage: SudokuResolver.py <grid.txt>"
-        sys.exit(1)
+def main():
+    parser = argparse.ArgumentParser(description="A sudoku resolver")
+    parser.add_argument("-v", "--verbose", action="count", default=0, help="increase output verbosity (-vv or --verbose=2 for even more verbosity)")
+    parser.add_argument("inputGrid", type=argparse.FileType('r'), default=sys.stdin, help="a file containing the grid to solve")
+    args = parser.parse_args()
 
     resolver = SudokuResolver()
-    with open(sys.argv[1], 'r') as fileToLoad:
-        resolver.load(fileToLoad)
-        print resolver.solve()
-        print resolver.grid.display()
+    resolver.load(args.inputGrid)
+    print resolver.solve()
+    print resolver.grid.display()
+
+    args.inputGrid.close()
+
+if __name__ == "__main__":
+    main()
+
