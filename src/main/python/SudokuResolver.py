@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF8 -*-
 
-import sys, argparse
+import sys, argparse, logging
 from Grid import Grid
 from GridResolution import GridResolution
 
@@ -28,6 +28,9 @@ def main():
     parser.add_argument("-v", "--verbose", action="count", default=0, help="increase output verbosity (-vv or --verbose=2 for even more verbosity)")
     parser.add_argument("inputGrid", type=argparse.FileType('r'), default=sys.stdin, help="a file containing the grid to solve")
     args = parser.parse_args()
+
+    logLevel = [logging.WARNING, logging.INFO, logging.DEBUG][args.verbose]
+    logging.basicConfig(format='%(levelname)s:%(message)s', level=logLevel)
 
     resolver = SudokuResolver()
     resolver.load(args.inputGrid)
