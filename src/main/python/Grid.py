@@ -1,3 +1,4 @@
+from SudokuResolverExceptions import GridLoadingException
 from StringIO import StringIO
 
 SIZE = 9
@@ -84,6 +85,8 @@ class Grid():
                 if columnIndex >= SIZE:
                     columnIndex = 0
                     lineIndex += 1
+        if lineIndex != SIZE:
+            raise GridLoadingException("Loading Error : incomplete grid, missing cells")
 
     def __iter__(self):
         """ Returns an iterator over the unsolved cells of the grid. """
@@ -106,7 +109,7 @@ class Grid():
                     # Detect fully solved or unsolvable grids
                     if self.currentCell == [0, 0]:
                         self.howManySolvedCellsInThisPass = 0
-                    if self.grid.get_solution(self.currentCell[0], self.currentCell[1]) <> None:
+                    if self.grid.get_solution(*self.currentCell):
                         self.howManySolvedCellsInThisPass += 1
                     if self.currentCell == [SIZE - 1, SIZE - 1]:
                         if self.howManySolvedCellsInLastPass == SIZE*SIZE:
@@ -126,12 +129,9 @@ class Grid():
                             self.currentCell[1] += 1
                     else:
                         self.currentCell[0] += 1
-                    if self.grid.get_solution(self.currentCell[0], self.currentCell[1]) == None:
+                    if self.grid.get_solution(*self.currentCell) == None:
                         return self.currentCell
         return GridIterator(self)
-
-class GridLoadingException(Exception):
-    pass
 
 def __blankGrid__():
     return """\

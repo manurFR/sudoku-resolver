@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF8 -*-
 
+import logging
 from Grid import Grid
 from NakedSingleResolution import NakedSingleResolution
 
@@ -15,6 +16,7 @@ class GridResolution:
             Lets return the sum of all resolutions, which will be 1 if the cell is solved, 0 otherwise.
         """
         x, y = cell
+        logging.debug("Now considering cell ({},{}) - Remaining candidates : {}".format(x, y, self.grid.candidates[x][y]))
         return self.nakedSingleResolution.horizontal_naked_single(self.grid, x, y) \
              + self.nakedSingleResolution.vertical_naked_single(self.grid, x, y)   \
              + self.nakedSingleResolution.block_naked_single(self.grid, x, y)

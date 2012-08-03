@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF8 -*-
 
+import logging
 from Grid import SIZE
 
 class NakedSingleResolution:
@@ -11,36 +12,59 @@ class NakedSingleResolution:
         """ Remove from the (x, y) cell all the candidates that are already present on the same line.
             Returns 1 if the cell is solved (ie has only one remaining candidate) after this process, 0 otherwise.
         """
+        if grid.get_solution(x, y):
+            return 0
         for i in range(SIZE):
             if i == x:
                 continue
-            if grid.get_solution(i, y) <> None:
-                grid.remove_candidate(x, y, grid.get_solution(i, y))
-        return 1 if grid.get_solution(x, y) <> None else 0 
+            peer = grid.get_solution(i, y)
+            if peer and peer in grid.candidates[x][y]:
+                logging.debug("...removing candidate {} already present on ({},{})".format(peer, i, y))
+                grid.remove_candidate(x, y, peer)
+        if grid.get_solution(x, y):
+            logging.info("Naked Single resolution : found value for ({},{}) : {}".format(x, y, grid.get_solution(x, y)))
+            return 1
+        else:
+            return 0 
 
     def vertical_naked_single(self, grid, x, y):
         """ Remove from the (x, y) cell all the candidates that are already present on the same column.
             Returns 1 if the cell is solved (ie has only one remaining candidate) after this process, 0 otherwise.
         """
+        if grid.get_solution(x, y):
+            return 0
         for j in range(SIZE):
             if j == y:
                 continue
-            if grid.get_solution(x, j) <> None:
-                grid.remove_candidate(x, y, grid.get_solution(x, j))
-        return 1 if grid.get_solution(x, y) <> None else 0 
+            peer = grid.get_solution(x, j)
+            if peer and peer in grid.candidates[x][y]:
+                logging.debug("...removing candidate {} already present on ({},{})".format(peer, x, j))
+                grid.remove_candidate(x, y, peer)
+        if grid.get_solution(x, y):
+            logging.info("Naked Single resolution : found value for ({},{}) : {}".format(x, y, grid.get_solution(x, y)))
+            return 1
+        else:
+            return 0 
 
     def block_naked_single(self, grid, x, y):
         """ Remove from the (x, y) cell all the candidates that are already present on the same 3x3 block.
             Returns 1 if the cell is solved (ie has only one remaining candidate) after this process, 0 otherwise.
         """
+        if grid.get_solution(x, y):
+            return 0
         xStartOfBlock = (x / 3) * 3
         yStartOfBlock = (y / 3) * 3
         for i in range(3):
             for j in range(3):
                 if xStartOfBlock + i == x and yStartOfBlock + j == y:
                     continue
-                cellSolution = grid.get_solution(xStartOfBlock + i, yStartOfBlock + j)
-                if cellSolution <> None:
-                    grid.remove_candidate(x, y, cellSolution)
-        return 1 if grid.get_solution(x, y) <> None else 0 
+                peer = grid.get_solution(xStartOfBlock + i, yStartOfBlock + j)
+                if peer and peer in grid.candidates[x][y]:
+                    logging.debug("...removing candidate {} already present on ({},{})".format(peer, xStartOfBlock + i, yStartOfBlock + j))
+                    grid.remove_candidate(x, y, peer)
+        if grid.get_solution(x, y):
+            logging.info("Naked Single resolution : found value for ({},{}) : {}".format(x, y, grid.get_solution(x, y)))
+            return 1
+        else:
+            return 0 
 

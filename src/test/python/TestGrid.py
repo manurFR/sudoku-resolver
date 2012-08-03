@@ -1,6 +1,7 @@
 import unittest
 from StringIO import StringIO
-from Grid import Grid, GridLoadingException
+from Grid import Grid
+from SudokuResolverExceptions import GridLoadingException
 
 class TestGrid(unittest.TestCase):
     def setUp(self):
@@ -57,6 +58,11 @@ class TestGrid(unittest.TestCase):
         with self.assertRaises(GridLoadingException) as ex:
             Grid(StringIO("123456789\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n.........\n\n.........\n"))
         self.assertEqual("Loading Error : too many characters", ex.exception.message)
+
+    def test_load_incomplete_grid(self):
+        with self.assertRaises(GridLoadingException) as ex:
+            Grid(StringIO("123456789\n.........\n....\n.........\n.........\n\n.........\n"))
+        self.assertEqual("Loading Error : incomplete grid, missing cells", ex.exception.message)
 
     def test_get_solution(self):
         self.grid.load(StringIO("1........\n.2.......\n..3......\n...4.....\n....5....\n.....6...\n......7..\n.......8.\n........9\n"))

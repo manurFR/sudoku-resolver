@@ -2,8 +2,10 @@
 # -*- coding: UTF8 -*-
 
 import sys, argparse, logging
+from SudokuResolverExceptions import SudokuResolverException
 from Grid import Grid
 from GridResolution import GridResolution
+
 
 class SudokuResolver:
     def load(self, fileToLoad):
@@ -30,7 +32,7 @@ def main():
     args = parser.parse_args()
 
     logLevel = [logging.WARNING, logging.INFO, logging.DEBUG][args.verbose]
-    logging.basicConfig(format='%(levelname)s:%(message)s', level=logLevel)
+    logging.basicConfig(format='%(levelname)s: %(message)s', level=logLevel)
 
     resolver = SudokuResolver()
     resolver.load(args.inputGrid)
@@ -40,5 +42,8 @@ def main():
     args.inputGrid.close()
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SudokuResolverException as ex:
+        logging.error(ex.message)
 
