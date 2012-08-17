@@ -36,7 +36,13 @@ def main():
 
     resolver = SudokuResolver()
     resolver.load(args.inputGrid)
-    print resolver.solve()
+    print "Loaded grid :"
+    print resolver.grid.display()
+    if resolver.solve():
+        logging.info("Grid solved completely !")
+    else:
+        logging.info("Solving stopped without being able to finish the grid.")
+    print "Final grid :"
     print resolver.grid.display()
 
     args.inputGrid.close()

@@ -36,11 +36,11 @@ class Grid():
         if val in self.candidates[x][y]:
             self.candidates[x][y].remove(val)
 
-    def display(self):
+    def display(self, lineBreak=True):
         """ Returns a string representation of the grid in the current state.
             Cells whose value has been found are displayed by the corresponding number (from 1 to 9).
             Cells with two or more remaining possible values are displayed with a dot (".").
-            Each row ends with a line return ("\n").
+            Each row ends with a line return ("\n"), except if lineBreak is set to False.
         """
         grid = ""
         for y in range(SIZE):
@@ -50,7 +50,8 @@ class Grid():
                     grid = grid + "."
                 else:
                     grid = grid + str(cell_candidates[0])
-            grid = grid + "\n"
+            if lineBreak:
+                grid = grid + "\n"
         return grid
 
     def load(self, fileToLoad):
@@ -132,6 +133,9 @@ class Grid():
                     if self.grid.get_solution(*self.currentCell) == None:
                         return self.currentCell
         return GridIterator(self)
+
+def startCoordinatesOfBlock(x, y):
+    return ( (x / 3) * 3, (y / 3) * 3 )
 
 def __blankGrid__():
     return """\

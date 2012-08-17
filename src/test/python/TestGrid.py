@@ -1,6 +1,6 @@
 import unittest
 from StringIO import StringIO
-from Grid import Grid
+from Grid import Grid, startCoordinatesOfBlock
 from SudokuResolverExceptions import GridLoadingException
 
 class TestGrid(unittest.TestCase):
@@ -96,6 +96,12 @@ class TestGrid(unittest.TestCase):
         with self.assertRaises(StopIteration) as ex:
             iterator.next()
         self.assertFalse(ex.exception.args[0])
+
+    def test_start_coordinates_of_block(self):
+        self.assertEqual((3, 0), startCoordinatesOfBlock(4, 1))
+        self.assertEqual((0, 0), startCoordinatesOfBlock(0, 0))
+        self.assertEqual((6, 6), startCoordinatesOfBlock(7, 6))
+        self.assertEqual((0, 6), startCoordinatesOfBlock(2, 8))
 
 if __name__ == '__main__':
     unittest.main()

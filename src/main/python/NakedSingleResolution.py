@@ -2,7 +2,7 @@
 # -*- coding: UTF8 -*-
 
 import logging
-from Grid import SIZE
+from Grid import SIZE, startCoordinatesOfBlock
 
 class NakedSingleResolution:
     """ A naked single is a cell with only one remaining candidate value after exclusion of all the other values because they are featured on the same line, column or 3x3 block.
@@ -52,15 +52,14 @@ class NakedSingleResolution:
         """
         if grid.get_solution(x, y):
             return 0
-        xStartOfBlock = (x / 3) * 3
-        yStartOfBlock = (y / 3) * 3
+        xBlock, yBlock = startCoordinatesOfBlock(x, y)
         for i in range(3):
             for j in range(3):
-                if xStartOfBlock + i == x and yStartOfBlock + j == y:
+                if xBlock + i == x and yBlock + j == y:
                     continue
-                peer = grid.get_solution(xStartOfBlock + i, yStartOfBlock + j)
+                peer = grid.get_solution(xBlock + i, yBlock + j)
                 if peer and peer in grid.candidates[x][y]:
-                    logging.debug("...removing candidate {} already present on ({},{})".format(peer, xStartOfBlock + i, yStartOfBlock + j))
+                    logging.debug("...removing candidate {} already present on ({},{})".format(peer, xBlock + i, yBlock + j))
                     grid.remove_candidate(x, y, peer)
         if grid.get_solution(x, y):
             logging.info("Naked Single resolution : found value for ({},{}) : {}".format(x, y, grid.get_solution(x, y)))
