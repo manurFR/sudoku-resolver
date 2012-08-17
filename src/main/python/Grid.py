@@ -8,13 +8,13 @@ class Grid():
         Each cell features a list of the 1 to 9 remaining candidates (from numbers 1 to 9) allowed for this cell.
         When a cell has only one remaining candidate (list of size 1), it is the definitive number found for this cell.
     """
-    def __init__(self, fileToLoad = None):    
+    def __init__(self, fileToLoad = None, grid=None):
         """ Initialization of the grid.
-            If a fileToLoad is provided, it is parsed to create the grid.
-            If not, initially each of the 9x9 cells will have a full list [1,2,3,4,5,6,7,8,9] of possible candidates.
+            If a fileToLoad is provided, it is parsed to create the grid. If not, the grid string is loaded directly.
+            If neither are provided, initially each of the 9x9 cells will have a full list [1,2,3,4,5,6,7,8,9] of possible candidates.
         """
         if fileToLoad == None:
-            fileToLoad = StringIO(__blankGrid__())
+            fileToLoad = StringIO(grid if grid != None else __blankGrid__())
         self.load(fileToLoad) 
 
     def set(self, x, y, val):
