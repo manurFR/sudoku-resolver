@@ -12,7 +12,7 @@ class HiddenSingleResolution:
     def block_hidden_single(self, grid, x, y):
         """ For each of the remaining candidates in the (x, y) cell, determine if there is no other cell in the same block having the same digit has remaining candidate.
             If not, since each digit must appear once in each block, it means that cell must hold that digit.
-            Returns 1 if such a naked single was found in this cell, 0 otherwise.
+            Returns True if such a naked single was found in this cell, False otherwise.
         """
         if grid.get_solution(x, y):
             return 0
@@ -29,6 +29,6 @@ class HiddenSingleResolution:
             if notFound:
                 logging.info("Hidden Single Resolution : found value for ({},{}) : {}".format(x, y, digit))
                 grid.candidates[x][y] = [digit] # easier than removing each of the other remaining candidates
-                return 1
-        return 0 
+                return True
+        return False
 
