@@ -2,6 +2,7 @@
 # -*- coding: UTF8 -*-
 
 import sys, argparse, logging
+import Stats
 from SudokuResolverExceptions import SudokuResolverException
 from Grid import Grid
 from GridResolution import GridResolution
@@ -50,6 +51,10 @@ def main():
         logging.info("Solving stopped without being able to finish the grid.")
     print "Final grid :"
     print resolver.grid.display()
+
+    logging.info("Distribution of cell solving resolutions :")
+    for key, value in Stats.results().iteritems():
+        logging.info("  {}\t : {} cell(s)".format(key, value))
 
 if __name__ == "__main__":
     try:
