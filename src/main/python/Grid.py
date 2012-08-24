@@ -134,6 +134,14 @@ class Grid():
                         return self.currentCell
         return GridIterator(self)
 
+    def is_solved(self):
+        """ Returns True if this grid is fully solved (all cells have only one candidate left), False otherwise. """
+        for x in range(SIZE):
+            for y in range(SIZE):
+                if self.get_solution(x, y) == None:
+                    return False
+        return True
+
 def startCoordinatesOfBlock(x, y):
     return ( (x / 3) * 3, (y / 3) * 3 )
 

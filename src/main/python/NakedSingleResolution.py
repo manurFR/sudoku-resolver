@@ -7,6 +7,8 @@ from Grid import SIZE, startCoordinatesOfBlock
 class NakedSingleResolution:
     """ A naked single is a cell with only one remaining candidate value after exclusion of all the other values because they are featured on the same line, column or 3x3 block.
         The most obvious resolution of a line, column or 3x3 block that contains all numbers but one is a special case of naked single resolution.
+        This resolution can be seen as trivial, and should always be performed after any successful resolution, in order to propagate the new constraints brought by newly solved cells.
+        It includes the start of the solving, where the initial clues can be seen as newly solved cells.
     """
     def horizontal_naked_single(self, grid, x, y):
         """ Remove from the (x, y) cell all the candidates that are already present on the same line.

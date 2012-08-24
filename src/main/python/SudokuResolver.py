@@ -7,26 +7,11 @@ from SudokuResolverExceptions import SudokuResolverException
 from Grid import Grid
 from GridResolution import GridResolution
 
-
-class SudokuResolver:
-    def load(self, fileToLoad=None, gridAsString=None):
-        self.grid = Grid(fileToLoad, gridAsString)
-        self.gridResolution = GridResolution(self.grid)
-        if fileToLoad:
-            fileToLoad.close()
-
-    def solve(self):
-        """ Iterate on the grid's unsolved cells and perform known resolution algorithms on them
-            until the grid is solved or in an unsolved state (which is an information theiterator
-            gives us as argument of the StopIteration exception).
-            Returns True if the grid has been solved, False if the application wasn't able to solve it.
-        """
-        try:
-            iterOnGrid = iter(self.grid)
-            while True:
-                self.gridResolution.consider_cell(iterOnGrid.next())
-        except StopIteration as stop:
-           return stop.args[0]
+def prepareGrid(fileToLoad=None, gridAsString=None):
+    grid = Grid(fileToLoad, gridAsString)
+    if fileToLoad:
+        fileToLoad.close()
+    return grid
 
 def main():
     parser = argparse.ArgumentParser(description="A sudoku resolver")
@@ -41,16 +26,18 @@ def main():
     logLevel = [logging.WARNING, logging.INFO, logging.DEBUG][args.verbose]
     logging.basicConfig(format='%(levelname)s: %(message)s', level=logLevel)
 
-    resolver = SudokuResolver()
-    resolver.load(args.gridAsFile, args.grid)
+    grid = prepareGrid(args.gridAsFile, args.grid)
     print "Loaded grid :"
-    print resolver.grid.display()
-    if resolver.solve():
+    print grid.display()
+
+    gridResolution = GridResolution(grid)
+    if gridResolution.solve():
         logging.info("Grid solved completely !")
     else:
         logging.info("Solving stopped without being able to finish the grid.")
+
     print "Final grid :"
-    print resolver.grid.display()
+    print grid.display()
 
     logging.info("Distribution of cell solving resolutions :")
     for key, value in Stats.results().iteritems():

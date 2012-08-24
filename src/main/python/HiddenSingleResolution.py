@@ -28,7 +28,7 @@ class HiddenSingleResolution:
                         break
             if notFound:
                 logging.info("Hidden Single Resolution : found value for ({},{}) : {}".format(x, y, digit))
-                grid.candidates[x][y] = [digit] # easier than removing each of the other remaining candidates
+                grid.set(x, y, digit)
                 return True
         return False
 
@@ -49,7 +49,7 @@ class HiddenSingleResolution:
                     break
             if notFound:
                 logging.info("Hidden Single Resolution : found value for ({},{}) : {}".format(x, y, digit))
-                grid.candidates[x][y] = [digit] # easier than removing each of the other remaining candidates
+                grid.set(x, y, digit)
                 return True
         return False
 
@@ -70,6 +70,6 @@ class HiddenSingleResolution:
                     break
             if notFound:
                 logging.info("Hidden Single Resolution : found value for ({},{}) : {}".format(x, y, digit))
-                grid.candidates[x][y] = [digit] # easier than removing each of the other remaining candidates
+                grid.set(x, y, digit)
                 return True
         return False
