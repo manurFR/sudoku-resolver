@@ -43,5 +43,10 @@ class TestNakedSingleResolution(unittest.TestCase):
         self.assertEqual(False, self.nakedSingleResolution.block_naked_single(grid, 0, 0))
         self.assertItemsEqual([3,4,5,6], grid.candidates[0][0])
 
+    def test_run(self):
+        grid = Grid(StringIO(".......1.\n.23456789\n.......6.\n65.....2.\n879......\n321....4.\n.......5.\n.......9.\n.......7.\n"))
+        self.assertEqual(3, self.nakedSingleResolution.run(grid)) # 3 solved cells
+        self.assertEqual(".......1.\n123456789\n.......6.\n654....2.\n879....3.\n321....4.\n.......5.\n.......9.\n.......7.\n", grid.display())
+
 if __name__ == '__main__':
     unittest.main()
