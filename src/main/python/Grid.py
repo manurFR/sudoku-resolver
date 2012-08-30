@@ -95,36 +95,16 @@ class Grid():
             def __init__(self, grid):
                 self.grid = grid
                 self.currentCell = [-1, 0]
-                self.howManySolvedCellsInThisPass = 0
-                self.howManySolvedCellsInLastPass = 0
             def __iter__(self):
                 return self
             def next(self):
                 """ Finds the next unsolved cell.
-                    Raises StopIteration(True) if the grid is fully solved or StopIteration(False) if it ends in an unsolvable state.
-                    Note : this algorithm requires two full passes with no changes in order to detect an unsolvable grid,
-                    because it compares the number of solved cells between two consecutive passes.
-                    A solved grid will be detected earlier, ie the first time the bottom right cell is reached after the grid is completed.
+                    Raises StopIteration if there are no more cells (does not cycle back to the first cell).
                 """
                 while True:
-                    # Detect fully solved or unsolvable grids
-                    if self.currentCell == [0, 0]:
-                        self.howManySolvedCellsInThisPass = 0
-                    if self.grid.get_solution(*self.currentCell):
-                        self.howManySolvedCellsInThisPass += 1
-                    if self.currentCell == [SIZE - 1, SIZE - 1]:
-                        if self.howManySolvedCellsInLastPass == SIZE*SIZE:
-                            raise StopIteration(True)
-                        elif self.howManySolvedCellsInThisPass == self.howManySolvedCellsInLastPass:
-                            raise StopIteration(False)
-                        else:
-                            self.howManySolvedCellsInLastPass = self.howManySolvedCellsInThisPass
-
-                    # Find next cell and check if it is unsolved
                     if self.currentCell[0] == SIZE - 1: # end of line : go to first cell of next line
                         if self.currentCell[1] == SIZE - 1: # end of grid : go back to the top left cell
-                            self.currentCell[0] = 0
-                            self.currentCell[1] = 0
+                            raise StopIteration
                         else:
                             self.currentCell[0] = 0
                             self.currentCell[1] += 1
