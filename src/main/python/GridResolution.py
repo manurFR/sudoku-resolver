@@ -29,7 +29,9 @@ class GridResolution:
         passCounter = 0
         while True:
             passCounter += 1
-            logging.debug("Pass #{}".format(passCounter))
+            logging.debug("\n\n")
+            logging.debug("Pass #{}\n=======".format(passCounter))
+            logging.debug("Starting grid:\n{}".format(self.grid.display()))
 
             for stg in self.strategies:
                 if stg.run(self.grid) > 0:
