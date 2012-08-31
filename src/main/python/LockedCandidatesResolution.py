@@ -10,6 +10,9 @@ class LockedCandidatesResolution:
          three cells. Consequently, it can not appear on any other cell of the same row or column. The corresponding candidates can be removed.
         This resolution will only infrequently lead to solving cells, but it may remove remaining candidates that otherwise prevent other resolution methods to succeed.
     """
+    def run(grid):
+        pass
+
     def horizontal_locked_candidates(self, grid, x, y):
         """ For each of the remaining candidates in the (x, y) cell, determine if at least one of the other two cells in the same row from the same block also feature
              this candidate, AND that no other cell in the same block feature the same candidate.

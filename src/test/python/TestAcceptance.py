@@ -6,7 +6,6 @@ from StringIO import StringIO
 from SudokuResolver import prepareGrid
 from GridResolution import GridResolution
 
-@unittest.skip("")
 class TestAcceptance(unittest.TestCase):
     def test_grid_with_only_naked_single(self):
         grid = prepareGrid(gridAsString="..........1.2.3.4....456....47...89...2.7.6...98...75....684....3.7.1.6..........")

@@ -30,7 +30,7 @@ class NakedSingleResolution:
             Returns True if the cell is solved (ie has only one remaining candidate) after this process, False otherwise.
         """
         if grid.get_solution(x, y):
-            return 0
+            return False
         removed_candidates = []
         for i in range(SIZE):
             if i == x:
@@ -47,7 +47,7 @@ class NakedSingleResolution:
             Returns True if the cell is solved (ie has only one remaining candidate) after this process, False otherwise.
         """
         if grid.get_solution(x, y):
-            return 0
+            return False
         removed_candidates = []
         for j in range(SIZE):
             if j == y:
@@ -64,7 +64,7 @@ class NakedSingleResolution:
             Returns True if the cell is solved (ie has only one remaining candidate) after this process, False otherwise.
         """
         if grid.get_solution(x, y):
-            return 0
+            return False
         xBlock, yBlock = startCoordinatesOfBlock(x, y)
         removed_candidates = []
         for i in range(3):

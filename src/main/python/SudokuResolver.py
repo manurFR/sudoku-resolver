@@ -39,7 +39,7 @@ def main():
     print "Final grid :"
     print grid.display()
 
-    logging.info("Distribution of cell solving resolutions :")
+    logging.info("Distribution of resolution strategies used :")
     for key, value in Stats.results().iteritems():
         logging.info("  {}\t : {} cell(s)".format(key, value))
 

@@ -21,6 +21,9 @@ class MockGrid:
         self.callsBeforeSolved -= 1
         return True if self.callsBeforeSolved == 0 else False
 
+    def display(self):
+        pass
+
 class TestGridResolution(unittest.TestCase):
     def test_solve_strategies_successful_and_grid_solved(self):
         gridResolution = GridResolution(grid=Grid(StringIO("415638972\n362479185\n789215364\n926341758\n138756429\n574982631\n257164893\n843597216\n691823547\n")), strategies=[MockStrategy(False), MockStrategy(True)])
