@@ -17,7 +17,7 @@ class TestLockedCandidatesResolution(unittest.TestCase):
         self.assertItemsEqual([2, 3, 4, 5, 6], grid.candidates[0][1])
         self.assertItemsEqual([2, 3, 4, 5], grid.candidates[1][1])
         self.assertItemsEqual([3, 6], grid.candidates[2][1])
-        self.lockedCandidatesResolution.horizontal_locked_candidates(grid, 6, 1)
+        self.lockedCandidatesResolution.horizontal_locked_candidates(grid, 6, 0)
         self.assertItemsEqual([2, 4, 5, 6], grid.candidates[0][1])
         self.assertItemsEqual([2, 4, 5], grid.candidates[1][1])
         self.assertItemsEqual([6], grid.candidates[2][1])
