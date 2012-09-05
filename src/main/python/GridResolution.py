@@ -4,8 +4,9 @@
 import logging
 from NakedSingleResolution import NakedSingleResolution
 from HiddenSingleResolution import HiddenSingleResolution
+from LockedCandidatesResolution import LockedCandidatesResolution
 
-STRATEGIES = [NakedSingleResolution(), HiddenSingleResolution()]
+STRATEGIES = [NakedSingleResolution(), HiddenSingleResolution(), LockedCandidatesResolution()]
 
 class GridResolution:
     def __init__(self, grid, strategies=STRATEGIES):
