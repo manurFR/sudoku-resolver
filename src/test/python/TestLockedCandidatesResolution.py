@@ -24,7 +24,7 @@ class TestLockedCandidatesResolution(unittest.TestCase):
         self.assertEqual(".179.36..\n..6.8....\n9.....5.7\n.72.1.43.\n...4.2.7.\n.6437.25.\n7.1....65\n....3....\n..56.172.\n", grid.display())
 
     def test_vertical_locked_candidates(self):
-        grid = Grid(StringIO("000023000004000100050084090001070902093006000000010760000000000800000004060000587"))
+        grid = Grid(StringIO("000023400004000100050084090601070902793206801000010760000000009800000004060000587"))
         prepareRemainingCandidates(grid)
         self.assertItemsEqual([1, 3, 4, 5, 6, 7, 8], grid.candidates[3][6])
         self.assertItemsEqual([1, 3, 5, 6, 7, 9], grid.candidates[3][7])

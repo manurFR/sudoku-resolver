@@ -12,8 +12,9 @@ def _get_stats_controller():
 def results():
     return _get_stats_controller().results()
 
-def increment(item):
-    _get_stats_controller().increment(item)
+def increment(item, step=1):
+    for i in range(step + 1):
+        _get_stats_controller().increment(item)
 
 def _drop_stats_controller():
     # for testing purposes...
