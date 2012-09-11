@@ -6,20 +6,24 @@ import Stats
 from Grid import SIZE
 
 class LockedCandidatesResolution:
-    """ Locked candidates (also known as Pointed Pairs or Pointed Triples) are two or three aligned cells inside a block who share a same remaining candidate, and that
-         digit is not a remaining candidate in any other cell of the block. Since a block must feature each digit, that candidate must appear on this alignment of two or
-         three cells. Consequently, it can not appear on any other cell of the same row or column. The corresponding candidates can be removed.
+    """ Locked candidates (also known as Pointed Pairs or Pointed Triples) come in two types, almost similar but actually different :
+        - Type 1 "Line->Box reduction" : two or three aligned cells inside a block share a same remaining candidate, and that digit is not a remaining 
+          candidate in any other cell OF THE BLOCK. Since a block must feature each digit, that candidate must appear on this alignment of two or three 
+          cells. Consequently, it can not appear on any other cell of the same LINE (row or column). The corresponding candidates can be removed.
+        - Type 2 "Box->Line reduction" : two or three aligned cells inside a block share a same remaining candidate, and that digit is not a remaining
+          candidate in any other cell OF THE SAME LINE (row or column). Since a line must feature each digit, that candidate must appear in one of these 
+          two or three cells. Consequently, it can not appear on any other cell of the same BLOCK. The corresponding candidates can be removed.
         This resolution will only infrequently lead to solving cells, but it may remove remaining candidates that otherwise prevent other resolution methods to succeed.
     """
     def run(self, grid):
         solvedCells = 0
         for xBlock in [0, 3, 6]:
             for yBlock in [0, 3, 6]:
-                solvedCells += self.horizontal_locked_candidates(grid, xBlock, yBlock) + self.vertical_locked_candidates(grid, xBlock, yBlock)
+                solvedCells += self.horizontal_line_box_reduction(grid, xBlock, yBlock) + self.vertical_line_box_reduction(grid, xBlock, yBlock)
         Stats.increment(self.__class__.__name__, solvedCells)
         return solvedCells
 
-    def horizontal_locked_candidates(self, grid, xBlock, yBlock):
+    def horizontal_line_box_reduction(self, grid, xBlock, yBlock):
         """ For each of the 9 digits not already solved in the (xBlock, yBlock) block, check if this digit is included in the remaining candidates
              of two or three cells in a row, AND not included in the remaining candidates of the other two rows.
             If it is the case, remove this digit from the remaining candidates of all the cells in the same row outside of the block.
@@ -52,7 +56,7 @@ class LockedCandidatesResolution:
                             solvedCells += 1
         return solvedCells
 
-    def vertical_locked_candidates(self, grid, xBlock, yBlock):
+    def vertical_line_box_reduction(self, grid, xBlock, yBlock):
         """ For each of the 9 digits not already solved in the (xBlock, yBlock) block, check if this digit is included in the remaining candidates
 
              of two or three cells in a column, AND not included in the remaining candidates of the other two columns.
