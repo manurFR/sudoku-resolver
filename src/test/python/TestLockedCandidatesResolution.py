@@ -52,8 +52,17 @@ class TestLockedCandidatesResolution(unittest.TestCase):
         self.assertItemsEqual([1, 4, 5, 6],       grid.candidates[8][8])
         self.assertEqual("5..2...1...19..73.......8...5..2...8.62.39........43............8.46795...73.....", grid.display(lineBreak=False))
 
+    def test_block_row_reduction(self):
+        grid = Grid(StringIO(".16..78.3\n.9.8.....\n87...1.6.\n.48...3..\n65...9.82\n239...65.\n.6.9...2.\n.8...2936\n9246..51.\n"))
+        prepareRemainingCandidates(grid)
+        self.assertItemsEqual([2, 3, 4, 5],    grid.candidates[3][2])
+        self.assertItemsEqual([2, 3, 4, 5, 6], grid.candidates[4][1])
+        self.assertItemsEqual([2, 3, 4, 5, 9], grid.candidates[4][2])
+        self.assertEqual(0, self.lockedCandidatesResolution.block_row_reduction(grid, 3, 0))
+        self.assertItemsEqual([3, 4, 5],    grid.candidates[3][2])
+        self.assertItemsEqual([3, 4, 5, 6], grid.candidates[4][1])
+        self.assertItemsEqual([3, 4, 5, 9], grid.candidates[4][2])
         
-
 if __name__ == '__main__':
     unittest.main()
 
